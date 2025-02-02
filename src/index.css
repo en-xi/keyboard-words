@@ -3,9 +3,27 @@
 @tailwind utilities;
 
 @layer utilities {
-  .link {
-    @apply border-b-2 border-blue-300  hover:bg-blue-200
+  .link:hover {
+    color: blue;
   }
+  .flex-center {
+    @apply flex items-center justify-center gap-x-4
+  }
+  .flex-col-center {
+    @apply flex flex-col justify-center items-center
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border ;
+    /*border:1px solid green*/
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Nunito Sans Variable', sans-serif;
+  }
+
 }
 
 @layer base {
@@ -111,13 +129,7 @@
 
     --chart-5: 340 75% 55%
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+
+
 }

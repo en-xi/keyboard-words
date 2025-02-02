@@ -73,14 +73,23 @@ const Word = ({ word, inputWordFinished }) => {
 
   return (
     <div>
-      <ul>
-        <li>{word?.syllables}</li>
-        <li>{inputChars}</li>
-        <li>/{word?.pronunciation}/</li>
-        <li>{word?.partOfSpeech}</li>
-        <li>definition: {word?.definition}</li>
-        <li>{word?.example && <p>example: {word?.example}</p>}</li>
-      </ul>
+      <div className="flex-col-center">
+        <span className="text-7xl">{word?.syllables}</span>
+        <span className="text-7xl">{inputChars}</span>
+        <span className="text-7xl">/{word?.pronunciation}/</span>
+        <span className="text-xl">{word?.partOfSpeech}</span>
+        <span className="text-xl">definition: {word?.definition}</span>
+        <span className="text-xl">
+          {word?.example && <p>example: {word?.example}</p>}
+        </span>
+        <span className="text-xl">
+          <audio
+            controls
+            autoPlay
+            src={`https://dict.youdao.com/dictvoice?type=0&audio=${word.word}`}
+          />
+        </span>
+      </div>
     </div>
   );
 };

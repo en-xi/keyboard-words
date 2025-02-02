@@ -13,7 +13,7 @@ export function MySheet({ wordsData }) {
   return (
     <Sheet>
       <SheetTrigger>
-        <Button className="bg-white text-black link hover:bg-blue-200">
+        <Button className="bg-white text-black link hover:bg-white">
           show words of current chapter
         </Button>
       </SheetTrigger>

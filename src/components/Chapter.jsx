@@ -64,7 +64,7 @@ function Chapter({
 
   if (isChapterFinish) {
     return (
-      <div>
+      <div className="flex-col-center text-3xl">
         <p>finished current chapter!</p>
         <button
           ref={nextChapterButtonRef}

@@ -4,87 +4,102 @@ import { useEffect, useRef, useState } from "react";
 let wordIndex = 0;
 
 function Chapter({
-  wordsData,
-  setIsChapterFinish,
-  isChapterFinish,
-  enterNextChapter,
-  setIsEnd,
-  isAllChaptersEnd,
+    wordsData,
+    setIsChapterFinish,
+    isChapterFinish,
+    enterNextChapter,
+    setIsEnd,
+    isAllChaptersEnd,
+    audioType,
+    isShowPhonetic,
+    isShowPartOfSpeech,
+    isShowDefinition,
+    isShowExample,
+    isShowAudio,
 }) {
-  const [word, setWord] = useState(wordsData[0]);
-  const nextChapterButtonRef = useRef(null);
+    const [word, setWord] = useState(wordsData[0]);
+    const nextChapterButtonRef = useRef(null);
 
-  // console.log('render Chapter')
+    // console.log('render Chapter')
 
-  let wordsLength = wordsData.length;
+    let wordsLength = wordsData.length;
 
-  function hasNextWord() {
-    if (wordIndex + 1 < wordsLength) {
-      return true;
-    } else {
-      console.log("inputed all words for the chapter");
-      return false;
+    function hasNextWord() {
+        if (wordIndex + 1 < wordsLength) {
+            return true;
+        } else {
+            console.log("inputed all words for the chapter");
+            return false;
+        }
     }
-  }
 
-  function nextWord() {
-    setWord(wordsData[++wordIndex]);
-  }
-
-  function initChapter() {
-    setWord(wordsData[0]);
-    wordIndex = 0;
-  }
-
-  function restartCurrentChapter() {
-    initChapter();
-    setIsChapterFinish(false);
-  }
-
-  function inputWordFinished() {
-    if (hasNextWord()) {
-      nextWord();
-    } else {
-      setIsEnd();
-      setIsChapterFinish(true);
+    function nextWord() {
+        setWord(wordsData[++wordIndex]);
     }
-  }
 
-  useEffect(() => {
-    nextChapterButtonRef.current?.focus();
-  });
+    function initChapter() {
+        setWord(wordsData[0]);
+        wordIndex = 0;
+    }
 
-  useEffect(() => {
-    initChapter();
-  }, [wordsData]);
+    function restartCurrentChapter() {
+        initChapter();
+        setIsChapterFinish(false);
+    }
 
-  if (isAllChaptersEnd) {
-    return <p>finished the end chapter</p>;
-  }
+    function inputWordFinished() {
+        if (hasNextWord()) {
+            nextWord();
+        } else {
+            setIsEnd();
+            setIsChapterFinish(true);
+        }
+    }
 
-  if (isChapterFinish) {
+    useEffect(() => {
+        nextChapterButtonRef.current?.focus();
+    });
+
+    useEffect(() => {
+        initChapter();
+    }, [wordsData]);
+
+    if (isAllChaptersEnd) {
+        return <p>finished the end chapter</p>;
+    }
+
+    if (isChapterFinish) {
+        return (
+            <div className="flex-col-center text-3xl">
+                <p>finished current chapter!</p>
+                <button
+                    ref={nextChapterButtonRef}
+                    onClick={enterNextChapter}
+                    className="border mt-2"
+                >
+                    next chapter
+                </button>
+                <button onClick={restartCurrentChapter} className="border mt-2">
+                    restart current chapter
+                </button>
+            </div>
+        );
+    }
+
     return (
-      <div className="flex-col-center text-3xl">
-        <p>finished current chapter!</p>
-        <button
-          ref={nextChapterButtonRef}
-          onClick={enterNextChapter}
-          className="border mt-2"
-        >
-          next chapter
-        </button>
-        <button onClick={restartCurrentChapter} className="border mt-2">
-          restart current chapter
-        </button>
-      </div>
+        <>
+            <Word
+                word={word}
+                inputWordFinished={inputWordFinished}
+                audioType={audioType}
+                isShowPhonetic={isShowPhonetic}
+                isShowPartOfSpeech={isShowPartOfSpeech}
+                isShowDefinition={isShowDefinition}
+                isShowExample={isShowExample}
+                isShowAudio={isShowAudio}
+            />
+        </>
     );
-  }
-
-  return (
-    <>
-      <Word word={word} inputWordFinished={inputWordFinished} />
-    </>
-  );
 }
 
 export default Chapter;

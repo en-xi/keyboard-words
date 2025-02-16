@@ -2,18 +2,19 @@ import { useContext, useEffect, useState } from "react";
 
 let separationDotIndexs = [];
 let chars = [];
-let singleLetterPattern = /^[a-zA-Z]{1}$/;
+let singleLetterPattern = /^[a-zA-Z\s]{1}$/;
 let underscoreChars = [];
 
 const Word = ({
     word,
     inputWordFinished,
-    audioType,
+    isUSPhonetic,
     isShowPhonetic,
     isShowPartOfSpeech,
     isShowDefinition,
     isShowExample,
     isShowAudio,
+    isShowWord,
 }) => {
     const [inputChars, setInputChars] = useState([]);
     const [charIndex, setCharIndex] = useState(0);
@@ -54,7 +55,7 @@ const Word = ({
         });
         setInputChars(nextChars);
         let nextCharIndex = charIndex + 1;
-        if (separationDotIndexs.includes(nextCharIndex)) {
+        if (!isShowWord && separationDotIndexs.includes(nextCharIndex)) {
             nextCharIndex += 1;
         }
         setCharIndex(nextCharIndex);
@@ -67,11 +68,17 @@ const Word = ({
     };
 
     useEffect(() => {
-        chars = word.syllables.split("");
-        let array = hideChars(word.syllables);
+        let array = [];
+        if (isShowWord) {
+            chars = word.word.split("");
+            array = chars.map((char) => "_");
+        } else {
+            chars = word.syllables.split("");
+            array = hideChars(word.syllables);
+        }
         underscoreChars = array;
         setInputChars(array);
-    }, [word]);
+    }, [word, isShowWord]);
 
     useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
@@ -83,13 +90,19 @@ const Word = ({
     return (
         <div>
             <div className="flex-col-center">
-                <span className="text-7xl">{word?.syllables}</span>
-                <span className="text-7xl">{inputChars}</span>
-                {isShowPhonetic && audioType === 0 && (
-                    <span className="text-xl">US: {word?.phonetic_us}</span>
+                {isShowWord ? (
+                    <span className="text-7xl">{word?.word}</span>
+                ) : (
+                    <span className="text-7xl">{word?.syllables}</span>
                 )}
-                {isShowPhonetic && audioType === 1 && (
-                    <span className="text-xl">UK: {word?.phonetic_uk}</span>
+                <span className="text-7xl">{inputChars}</span>
+
+                {isShowPhonetic && (
+                    <span className="text-xl">
+                        {isUSPhonetic
+                            ? `US: ${word?.phonetic_us}`
+                            : `UK: ${word?.phonetic_uk}`}
+                    </span>
                 )}
                 {isShowPartOfSpeech && (
                     <span className="text-xl">{word?.part_of_speech}</span>
@@ -111,9 +124,7 @@ const Word = ({
                             autoPlay
                             accesskey="p"
                             // src={`https://dict.youdao.com/dictvoice?type=0&audio=${word.word}`}
-                            src={
-                                audioType === 0 ? word.audio_us : word.audio_uk
-                            }
+                            src={isUSPhonetic ? word.audio_us : word.audio_uk}
                         />
                     </span>
                 )}

@@ -21,12 +21,15 @@ function Main() {
     const [isChapterFinish, setIsChapterFinish] = useState(false);
     const [chosenChapterId, setChosenChapterId] = useState(0);
     const [isAllChaptersEnd, setIsAllChaptersEnd] = useState(false);
-    const [audioType, setAudioType] = useState(0); // us type 0, uk type 1
+    // true indicates show US phonetic and audio, false indicates show UK phonetic and audio
+    const [isUSPhonetic, setIsUSPhonetic] = useState(true);
     const [isShowPhonetic, setIsShowPhonetic] = useState(true);
     const [isShowPartOfSpeech, setIsShowPartOfSpeech] = useState(true);
     const [isShowDefinition, setIsShowDefinition] = useState(true);
     const [isShowExample, setIsShowExample] = useState(true);
     const [isShowAudio, setIsShowAudio] = useState(true);
+    // true indicates show 'word' field, false indicates show 'syllables' field
+    const [isShowWord, setIsShowWord] = useState(true);
 
     // console.log('render Main');
     console.log("chapterNum", chapterNum);
@@ -121,16 +124,44 @@ function Main() {
                     </select>
                 </div>
 
-                <div>
-                    select audio type:
-                    <select
-                        className="border border-gray-600"
-                        value={audioType}
-                        onChange={(e) => setAudioType(parseInt(e.target.value))}
-                    >
-                        <option value="0">US</option>
-                        <option value="1">UK</option>
-                    </select>
+                <div className="grid grid-cols-3">
+                    phonetic type:
+                    <label>
+                        <input
+                            type="radio"
+                            checked={isUSPhonetic}
+                            onChange={() => setIsUSPhonetic(true)}
+                        />
+                        US
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            checked={!isUSPhonetic}
+                            onChange={() => setIsUSPhonetic(false)}
+                        />
+                        UK
+                    </label>
+                </div>
+
+                <div className="grid grid-cols-3">
+                    word format:
+                    <label>
+                        <input
+                            type="radio"
+                            checked={isShowWord}
+                            onChange={() => setIsShowWord(true)}
+                        />
+                        normal ('able')
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            checked={!isShowWord}
+                            onChange={() => setIsShowWord(false)}
+                        />
+                        syllables ('a·ble')
+                    </label>
                 </div>
 
                 <div className="grid grid-cols-3">
@@ -247,12 +278,13 @@ function Main() {
                         enterNextChapter={enterNextChapter}
                         setIsEnd={setIsEnd}
                         isAllChaptersEnd={isAllChaptersEnd}
-                        audioType={audioType}
+                        isUSPhonetic={isUSPhonetic}
                         isShowPhonetic={isShowPhonetic}
                         isShowPartOfSpeech={isShowPartOfSpeech}
                         isShowDefinition={isShowDefinition}
                         isShowExample={isShowExample}
                         isShowAudio={isShowAudio}
+                        isShowWord={isShowWord}
                     />
                 </div>
                 <div className="">

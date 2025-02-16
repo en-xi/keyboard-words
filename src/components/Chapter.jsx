@@ -10,12 +10,13 @@ function Chapter({
     enterNextChapter,
     setIsEnd,
     isAllChaptersEnd,
-    audioType,
+    isUSPhonetic,
     isShowPhonetic,
     isShowPartOfSpeech,
     isShowDefinition,
     isShowExample,
     isShowAudio,
+    isShowWord,
 }) {
     const [word, setWord] = useState(wordsData[0]);
     const nextChapterButtonRef = useRef(null);
@@ -25,7 +26,7 @@ function Chapter({
     let wordsLength = wordsData.length;
 
     function hasNextWord() {
-        if (wordIndex + 1 < wordsLength) {
+        if (wordIndex < wordsLength - 1) {
             return true;
         } else {
             console.log("inputed all words for the chapter");
@@ -91,12 +92,13 @@ function Chapter({
             <Word
                 word={word}
                 inputWordFinished={inputWordFinished}
-                audioType={audioType}
+                isUSPhonetic={isUSPhonetic}
                 isShowPhonetic={isShowPhonetic}
                 isShowPartOfSpeech={isShowPartOfSpeech}
                 isShowDefinition={isShowDefinition}
                 isShowExample={isShowExample}
                 isShowAudio={isShowAudio}
+                isShowWord={isShowWord}
             />
         </>
     );

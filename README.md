@@ -6,4 +6,6 @@ Nearly half of the words have no example sentences.
 
 The Oxford 3000 is the list of the 3000 most important words to learn in EnglishThe Oxford 3000 is the list of the 3000 most important words to learn in English. this website use these words.
 
-![alt text](webPageScreenShot.jpg)
+---
+
+![alt text](webpageshot.jpg)
